@@ -4,6 +4,7 @@ export default {
     return {
       buttonPressedCount: 0,
       requestedCount: 7,
+      tempVar: null,
     };
   },
   methods: {
@@ -13,11 +14,23 @@ export default {
     decrement() {
       this.buttonPressedCount--;
     },
+    generateRandom(min, max) {
+      if (!max) {
+        max = 5;
+      } //if is falsy
+      if (!min) {
+        min = -5;
+      }
+      this.requestedCount = Math.round(Math.random() * (max - min) + min);
+    },
+    onInput(e) {
+      this.tempVar = e.target.value;
+    },
   },
   watch: {
     buttonPressedCount(count) {
       if (count === this.requestedCount) {
-        this.buttonPressedCount = 101;
+        this.buttonPressedCount = 0;
       }
     },
   },
@@ -26,7 +39,9 @@ export default {
 
 <template>
   <div class="heading">
-    <h>The value is {{ buttonPressedCount }}</h>
+    <h>The current value is {{ buttonPressedCount }}</h>
+    <br />
+    <h>The requested value is {{ requestedCount }}</h>
   </div>
   <br />
   <br />
@@ -35,9 +50,21 @@ export default {
     <br />
     <br />
     <button class="buttons" v-on:Click="decrement">Decrement!</button>
-  </div>
-</template>
+    <br />
+    <br />
 
+    <!--<button class="buttons" v-on:Click="generateRandom">
+      Generate new number!
+    </button> -->
+  </div>
+  <!--<input type="text" v-on:Click="generateRandom" /> -->
+  <!-- <input type="text" :value="text" @input="onInput"> -->
+
+  <input v-bind:value="tempVar" @input="onInput" />
+  <button class="buttons" @click="generateRandom(tempVar)">
+    Generate new number!
+  </button>
+</template>
 <style>
 .heading {
   text-align: center;
