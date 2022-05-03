@@ -1,4 +1,18 @@
 <script>
+function newPopup(url) {
+  popupWindow = window.open(
+    url,
+    'popUpWindow',
+    'height=300,width=400,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes'
+  );
+}
+
+function sleep(delay) {
+  let start = new Date().getTime();
+  while (new Date().getTime() < start + delay);
+}
+
+// Vue Below
 export default {
   data() {
     return {
@@ -21,7 +35,11 @@ export default {
       if (!min) {
         min = -5;
       }
+
       this.requestedCount = Math.round(Math.random() * (max - min) + min);
+      while (this.requestedCount === 0) {
+        this.requestedCount = Math.round(Math.random() * (max - min) + min);
+      }
     },
     onInput(e) {
       this.tempVar = e.target.value;
