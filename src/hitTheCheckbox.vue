@@ -2,19 +2,32 @@
 export default {
   data() {
     return {
-      testtext: '',
+      //testtext:""
       numberOfRows: 3,
       checkBoxes: [],
     };
   },
-  methods: {},
+  methods: {
+    checkBoxClickedFunc(checkedArgument) {
+      //this.testtext = checkedArgument
+    },
+  },
   watch: {
     numberOfRows(number) {
       this.checkBoxes = [];
-      for (let i = 0; i < number * number; i++) {
-        this.checkBoxes.push({ id: i, isChecked: false });
+      let returnArray = [];
+      let loopArray = [];
+      let checkBoxIndex = 0;
+      for (let i = 0; i < number; i++) {
+        loopArray = [];
+
+        for (let i2 = 0; i2 < number; i2++) {
+          loopArray.push({ id: checkBoxIndex, isChecked: false });
+          checkBoxIndex++;
+        }
+        returnArray.push(loopArray);
       }
-      this.testtext = this.checkBoxes.length;
+      this.checkBoxes = returnArray;
     },
   },
 };
@@ -23,12 +36,20 @@ export default {
 <template>
   <input type="number" min="1" max="10" v-model="numberOfRows" />
   <p>numberOfRows: {{ numberOfRows }}</p>
-  <p>array length: {{ testtext }}</p>
   <!--<p>{{ checkBoxes }}</p>-->
+  <!--<p>{{ testtext }}</p>-->
 
-  <table v-for="checkBox in checkBoxes">
-    <tr>
-      <td><input type="checkBox" /></td>
+  <table>
+    <tr v-for="checkBoxArray in checkBoxes">
+      <td v-for="checkBox in checkBoxArray">
+        <input
+          v-bind:id="checkBox.id"
+          v-bind:isChecked="false"
+          <!--v-on:Click="checkBoxClickedFunc(isChecked)"
+          --
+        />
+        type="checkBox" />
+      </td>
     </tr>
   </table>
 </template>
