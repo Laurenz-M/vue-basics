@@ -2,14 +2,17 @@
 export default {
   data() {
     return {
-      //testtext:""
+      testtext: 'Click checkBox to see values!',
+      testchecked: 'Click checkBox to see values!',
       numberOfRows: 3,
       checkBoxes: [],
     };
   },
   methods: {
-    checkBoxClickedFunc(checkedArgument) {
-      //this.testtext = checkedArgument
+    checkBoxClickedFunc(idArgument, checkedArgument) {
+      //alert(checkedArgument);
+      this.testtext = idArgument;
+      this.testchecked = checkedArgument;
     },
   },
   watch: {
@@ -37,18 +40,18 @@ export default {
   <input type="number" min="1" max="10" v-model="numberOfRows" />
   <p>numberOfRows: {{ numberOfRows }}</p>
   <!--<p>{{ checkBoxes }}</p>-->
-  <!--<p>{{ testtext }}</p>-->
+  <p>{{ testtext }}</p>
+  <p>{{ testchecked }}</p>
 
   <table>
     <tr v-for="checkBoxArray in checkBoxes">
       <td v-for="checkBox in checkBoxArray">
         <input
+          type="checkBox"
           v-bind:id="checkBox.id"
-          v-bind:isChecked="false"
-          <!--v-on:Click="checkBoxClickedFunc(isChecked)"
-          --
+          v-bind:isChecked="checkBox.isChecked"
+          v-on:Click="checkBoxClickedFunc(checkBox.id, checkBox.isChecked)"
         />
-        type="checkBox" />
       </td>
     </tr>
   </table>
