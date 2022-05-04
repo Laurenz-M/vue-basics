@@ -15,10 +15,17 @@ export default {
       //alert(checkedArgument);
       this.testtext = idArgument;
       this.testchecked = checkedArgument;
-      if (checkedArgument === true) {
-        !checkedArgument;
+
+      let arrayIndex1 = Math.floor(idArgument / this.numberOfRows);
+      let arrayIndex2 = idArgument % this.numberOfRows;
+      //alert(arrayIndex1 + ' ' + arrayIndex2);
+
+      if (this.checkBoxes[arrayIndex1][arrayIndex2].isChecked === true) {
+        this.checkBoxes[arrayIndex1][arrayIndex2].isChecked = false;
+        alert('true');
       } else {
-        checkedArgument = false;
+        alert('false');
+        this.checkBoxes[arrayIndex1][arrayIndex2].isChecked = false;
       }
       //alert(checkedArgument);
     },
@@ -58,7 +65,7 @@ export default {
 <template>
   <input type="number" min="1" max="10" v-model="numberOfRows" />
   <p>numberOfRows: {{ numberOfRows }}</p>
-  <!--<p>{{ checkBoxes }}</p>-->
+  <p>{{ checkBoxes }}</p>
   <p>{{ testtext }}</p>
   <p>{{ testchecked }}</p>
 
@@ -68,7 +75,7 @@ export default {
         <input
           type="checkBox"
           v-bind:id="checkBox.id"
-          v-bind:isChecked="checkBox.isChecked"
+          v-bind:checked="checkBox.isChecked"
           v-on:Click="checkBoxClickedFunc(checkBox.id, checkBox.isChecked)"
         />
       </td>
