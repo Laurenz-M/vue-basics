@@ -22,9 +22,10 @@ export default {
 
       if (this.checkBoxes[arrayIndex1][arrayIndex2].isChecked === true) {
         this.checkBoxes[arrayIndex1][arrayIndex2].isChecked = false;
-        alert('true');
+        //alert('true');
+        this.checkRandomBox();
       } else {
-        alert('false');
+        //alert('false');
         this.checkBoxes[arrayIndex1][arrayIndex2].isChecked = false;
       }
       //alert(checkedArgument);
@@ -63,16 +64,23 @@ export default {
 </script>
 
 <template>
-  <input type="number" min="1" max="10" v-model="numberOfRows" />
+  <input
+    class="centerInput"
+    type="number"
+    min="1"
+    max="10"
+    v-model="numberOfRows"
+  />
   <p>numberOfRows: {{ numberOfRows }}</p>
-  <p>{{ checkBoxes }}</p>
+  <!--<p>{{ checkBoxes }}</p>-->
   <p>{{ testtext }}</p>
   <p>{{ testchecked }}</p>
 
-  <table>
+  <table class="gameTable">
     <tr v-for="checkBoxArray in checkBoxes">
       <td v-for="checkBox in checkBoxArray">
         <input
+          class="bigCheckbox"
           type="checkBox"
           v-bind:id="checkBox.id"
           v-bind:checked="checkBox.isChecked"
@@ -86,4 +94,16 @@ export default {
   <p>{{ randomBoxValue }}</p>
 </template>
 
-<style></style>
+<style>
+input.bigCheckbox {
+  width: 50px;
+  height: 50px;
+}
+.gameTable {
+  margin-left: auto;
+  margin-right: auto;
+}
+.centerInput {
+  margin: 0 auto;
+}
+</style>
