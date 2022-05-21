@@ -54,7 +54,6 @@ export default {
         !this.checkBoxes[row][collumn].isChecked;
     },
     startGame() {
-
       let maxIndex = this.checkBoxes.length;
       let randomId1;
       let randomId2;
@@ -72,6 +71,7 @@ export default {
         randomBoxArray.push([randomId1, randomId2]);
 
         this.checkBoxes = randomBoxArray;
+      }
     },
     arrayOfArraysIncludesArray(arrayOfArrays, includesArray) {
       for (let i = 0; i < arrayOfArrays.length; i++) {
