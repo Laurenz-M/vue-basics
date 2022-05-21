@@ -23,18 +23,24 @@ export default {
       if (this.checkBoxes[arrayIndex1][arrayIndex2].isChecked === true) {
         this.checkBoxes[arrayIndex1][arrayIndex2].isChecked = false;
         //alert('true');
-        this.checkRandomBox();
+        this.checkRandomBox(arrayIndex1, arrayIndex2);
       } else {
         //alert('false');
-        this.checkBoxes[arrayIndex1][arrayIndex2].isChecked = true;
+        //this.checkBoxes[arrayIndex1][arrayIndex2].isChecked = true;
         //this.checkBoxes[arrayIndex1][arrayIndex2].isChecked = false;
       }
       //alert(checkedArgument);
     },
-    checkRandomBox() {
+    checkRandomBox(arrayIndex1, arrayIndex2) {
       let maxIndex = this.checkBoxes.length;
-      let randomId1 = this.randomInt(maxIndex);
-      let randomId2 = this.randomInt(maxIndex);
+
+      let randomId1;
+      let randomId2;
+      do {
+        randomId1 = this.randomInt(maxIndex);
+        randomId2 = this.randomInt(maxIndex);
+      } while (arrayIndex1 === randomId1 && arrayIndex2 === randomId2); //makes sure new random box is not the same as the last
+
       this.checkBoxes[randomId1][randomId2].isChecked = true;
       this.randomBoxValue = this.checkBoxes[randomId1][randomId2].isChecked;
       this.randomBoxId = randomId1 * maxIndex + randomId2;
