@@ -26,7 +26,8 @@ export default {
         this.checkRandomBox();
       } else {
         //alert('false');
-        this.checkBoxes[arrayIndex1][arrayIndex2].isChecked = false;
+        this.checkBoxes[arrayIndex1][arrayIndex2].isChecked = true;
+        //this.checkBoxes[arrayIndex1][arrayIndex2].isChecked = false;
       }
       //alert(checkedArgument);
     },
@@ -41,6 +42,9 @@ export default {
     randomInt(max) {
       return Math.floor(Math.random() * max);
     }, // return random integer
+    checkFirst() {
+      this.checkBoxes[0][0].isChecked = !this.checkBoxes[0][0].isChecked;
+    },
   },
   watch: {
     numberOfRows(number) {
@@ -72,26 +76,29 @@ export default {
     v-model="numberOfRows"
   />
   <p>numberOfRows: {{ numberOfRows }}</p>
-  <!--<p>{{ checkBoxes }}</p>-->
-  <p>{{ testtext }}</p>
-  <p>{{ testchecked }}</p>
+  <p>checkBoxes: {{ checkBoxes }}</p>
+  <p>testtext: {{ testtext }}</p>
+  <p>testchecked: {{ testchecked }}</p>
+  <button v-on:click="checkFirst">change [0]</button>
 
   <table class="gameTable">
     <tr v-for="checkBoxArray in checkBoxes">
       <td v-for="checkBox in checkBoxArray">
         <input
           class="bigCheckbox"
-          type="checkBox"
+          type="checkbox"
           v-bind:id="checkBox.id"
           v-bind:checked="checkBox.isChecked"
-          v-on:Click="checkBoxClickedFunc(checkBox.id, checkBox.isChecked)"
+          v-on:click="checkBoxClickedFunc(checkBox.id, checkBox.isChecked)"
         />
       </td>
     </tr>
   </table>
+  <!--checkBoxClickedFunc(checkBox.id,
+          checkBox.isChecked)-->
   <button v-on:Click="checkRandomBox">RandomBox</button>
-  <p>{{ randomBoxId }}</p>
-  <p>{{ randomBoxValue }}</p>
+  <p>randomBoxId: {{ randomBoxId }}</p>
+  <p>randomBoxValue: {{ randomBoxValue }}</p>
 </template>
 
 <style>
