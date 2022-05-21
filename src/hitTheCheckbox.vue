@@ -8,10 +8,11 @@ export default {
       randomBoxValue: 'Click button to see values!',
       numberOfRows: 3,
       checkBoxes: [],
+      numberOfPlayableBoxes: 1,
     };
   },
   methods: {
-    checkBoxClickedFunc(idArgument, checkedArgument) {
+    checkBoxClickedFunc(idArgument, checkedArgument, disabledArgument) {
       //alert(checkedArgument);
       this.testtext = idArgument;
       this.testchecked = checkedArgument;
@@ -48,8 +49,58 @@ export default {
     randomInt(max) {
       return Math.floor(Math.random() * max);
     }, // return random integer
-    checkFirst() {
-      this.checkBoxes[0][0].isChecked = !this.checkBoxes[0][0].isChecked;
+    check(row, collumn) {
+      this.checkBoxes[row][collumn].isChecked =
+        !this.checkBoxes[row][collumn].isChecked;
+    },
+    startGame() {
+      /*
+      let maxIndex = this.checkBoxes.length;
+      let randomId1;
+      let randomId2;
+      let randomBoxArray = [];
+      let compareArray = [];
+      for (let i = 0; i < this.numberOfPlayableBoxes; i++) {
+        randomId1 = this.randomInt(maxIndex);
+        randomId2 = this.randomInt(maxIndex);
+        compareArray = [randomId1, randomId2];
+        while (randomBoxArray.includes(compareArray)) {
+          randomId1 = this.randomInt(maxIndex);
+          randomId2 = this.randomInt(maxIndex);
+          compareArray = [randomId1, randomId2];
+        }
+        randomBoxArray.push([randomId1, randomId2]);
+
+        this.checkBoxes = randomBoxArray;*/
+      alert(
+        this.arrayOfArraysIncludesArray(
+          [
+            [0, 1],
+            [1, 0],
+          ],
+          [0, 1]
+        )
+      );
+    },
+    arrayOfArraysIncludesArray(arrayOfArrays, includesArray) {
+      for (let i = 0; i < arrayOfArrays.length; i++) {
+        JSON.stringify(arrayOfArrays[i]) === JSON.stringify(includesArray);
+        //arrayOfArrays.forEach((containedArray) => {
+        /*
+        if (arrayOfArrays[i].length != includesArray.length) {
+          continue;
+        }
+        for (let j = 0; j < arrayOfArrays[i].length; j++) {
+          if (arrayOfArrays[j] != includesArray[j]) {
+            return false;
+          }
+        }
+        /*
+        if (containedArray == includesArray) {
+          return true;
+        }*/
+      } //);
+      return false;
     },
   },
   watch: {
@@ -62,7 +113,11 @@ export default {
         loopArray = [];
 
         for (let i2 = 0; i2 < number; i2++) {
-          loopArray.push({ id: checkBoxIndex, isChecked: false });
+          loopArray.push({
+            id: checkBoxIndex,
+            isChecked: false,
+            isDisabled: false,
+          });
           checkBoxIndex++;
         }
         returnArray.push(loopArray);
@@ -74,18 +129,36 @@ export default {
 </script>
 
 <template>
+  <br />
+  <label for="number_of_rows">Number of rows: </label>
   <input
+    id="number_of_rows"
     class="centerInput"
     type="number"
-    min="1"
+    min="2"
     max="10"
     v-model="numberOfRows"
   />
+
+  <label for="number_of_boxes"> Number of boxes: </label>
+  <input
+    id="number_of_boxes"
+    class="centerInput"
+    type="number"
+    min="1"
+    v-bind:max="
+      Math.round(((this.checkBoxes.length * this.checkBoxes.length) / 100) * 40)
+    "
+    v-model="numberOfPlayableBoxes"
+  />
+  <br />
+  <button id="startGameButton" v-on:click="startGame">Start game!</button>
+
   <p>numberOfRows: {{ numberOfRows }}</p>
   <p>checkBoxes: {{ checkBoxes }}</p>
   <p>testtext: {{ testtext }}</p>
   <p>testchecked: {{ testchecked }}</p>
-  <button v-on:click="checkFirst">change [0]</button>
+  <button v-on:click="check(0, 0)">change [x]</button>
 
   <table class="gameTable">
     <tr v-for="checkBoxArray in checkBoxes">
@@ -95,7 +168,14 @@ export default {
           type="checkbox"
           v-bind:id="checkBox.id"
           v-bind:checked="checkBox.isChecked"
-          v-on:click="checkBoxClickedFunc(checkBox.id, checkBox.isChecked)"
+          v-bind:disabled="checkBox.isDisabled"
+          v-on:click="
+            checkBoxClickedFunc(
+              checkBox.id,
+              checkBox.isChecked,
+              checkBox.isDisabled
+            )
+          "
         />
       </td>
     </tr>
